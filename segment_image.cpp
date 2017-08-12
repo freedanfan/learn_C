@@ -1,6 +1,6 @@
 // usage: g++ -o segment_image segment_image.cpp   -lopencv_core -lopencv_imgproc -lopencv_imgcodecs -lopencv_highgui -std=c++11
 
-// This project is prepare for Meathion leanrning dataset. Segment the picture for getting more training data.Sounge code follows:machmmach
+// This project is prepare for machine leanrning dataset. Segment the picture for getting more training data.Sounge code follows:machmmach
 
 #include <opencv2/opencv.hpp>  
 
