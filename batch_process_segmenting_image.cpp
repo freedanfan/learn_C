@@ -2,9 +2,16 @@
 
 // This project is prepare for machine leanrning dataset. Segment the picture for getting more training data.Sounge code follows:machmmach
 
-#include <opencv2/opencv.hpp>  
 
-  
+
+
+//usage:  g++ -o opencv_test opencv_test.cpp   -lopencv_core -lopencv_imgproc -lopencv_imgcodecs -lopencv_highgui -std=c++11
+
+
+
+
+
+#include <opencv2/opencv.hpp>  
 
 #include <iostream>  
 
@@ -20,7 +27,11 @@
 
 #define col_step 50 	// The step of each loop in picture's col
 
-#define max_loop_time 100	//the max loop-times that you want = the max number of pictures you will get
+#define max_loop_time 10	//the max loop-times that you want = the max number of pictures you will get
+
+#define path_to "/home/qian/Desktop/qian/"  //put the pictures to this path
+
+#define path_from "/home/qian/Desktop/"	// get the picture from this path 
 
 using namespace std;  
 
@@ -70,21 +81,21 @@ cvSaveImage(filename,img);
 
 	
 
-	int times=1;    //the loop-times 
+	int times=1;    //the loop-times per-image
 
 	int nums = 2;	//the number of pictures
 
 	char cfilename[500];
 
-	
+	char filename[100];
 
-	
+	int width,height;
 
 	
 
 	for (int num =1;num<=nums;num++){   //loop in each picture
 
-	char filename[100];
+	
 
 
 
@@ -94,7 +105,7 @@ cvSaveImage(filename,img);
 
 
 
-	sprintf(filename,"%d.png",num);
+	sprintf(filename,"%s%d.png",path_from,num);
 
 	IplImage *img = cvLoadImage(filename);  
 
@@ -102,9 +113,9 @@ cvSaveImage(filename,img);
 
   	
 
-	int width=img->width;
+	width=img->width;
 
-	int height=img->height;
+	height=img->height;
 
 
 
@@ -124,6 +135,7 @@ cvSaveImage(filename,img);
 
 	for(int row=0;;row=row+row_step){
 
+		if(times>max_loop_time) break;		
 		if((row +rect.height)>height) break;
 
 
@@ -133,10 +145,12 @@ cvSaveImage(filename,img);
 
 
 			if((col +rect.width)>width) break;
+			if(times>max_loop_time) break;	
 
-			printf("row=%d,col=%d\n",row,col);
+			printf("time=%d,row=%d,col=%d\n",times,row,col);
 
-		
+
+			rect.x=col;
 
     			cvSetImageROI(img,rect);  
 
@@ -144,7 +158,7 @@ cvSaveImage(filename,img);
 
   	
 
-			sprintf(cfilename,"/home/qian/Desktop/qian/%d_%d.jpg",num,times);	//the new_image's path you want to put
+			sprintf(cfilename,"%s%d_%d.jpg",path_to,num,times);	//the new_image's path you want to put
 
 			cvSaveImage(cfilename,image);	
 
@@ -152,9 +166,9 @@ cvSaveImage(filename,img);
 
 			times++;
 
-			if(times>max_loop_time) return 0;
 
-			rect.x=col;
+
+			
 
 		
 
@@ -168,11 +182,14 @@ cvSaveImage(filename,img);
 
 		
 
+		
+
 	}
 
 	
 
-
+	
+	times =1;
 
 }
 
@@ -185,6 +202,9 @@ cvSaveImage(filename,img);
     return 0;  
 
 }  
+
+
+
 
 
 
